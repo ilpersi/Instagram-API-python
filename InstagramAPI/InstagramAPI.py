@@ -994,27 +994,27 @@ class InstagramAPI:
             return False
 
     def finishTwoFactorAuth(self, verification_code, two_factor_identifier, force=False):
-           if (not self.isLoggedIn or force):
-               # FOR TWO VERIFICATION
-               data = {'_csrftoken': self.LastResponse.cookies['csrftoken'],
-                       'username': self.username,
-                       'guid': self.uuid,
-                       'device_id': self.device_id,
-                       'verification_method': '1',
-                       'verification_code': verification_code,
-                       'two_factor_identifier': two_factor_identifier}
-                if (self.SendRequest('accounts/two_factor_login/', self.generateSignature(json.dumps(data)), True)):
-                   self.isLoggedIn = True
-                   self.username_id = self.LastJson["logged_in_user"]["pk"]
-                   self.rank_token = "%s_%s" % (self.username_id, self.uuid)
-                   self.token = self.LastResponse.cookies["csrftoken"]
-                    self.syncFeatures()
-                   self.autoCompleteUserList()
-                   self.timelineFeed()
-                   self.getv2Inbox()
-                   self.getRecentActivity()
-                   print("Login success with two factor authentication!\n")
-                   return True
+        if (not self.isLoggedIn or force):
+            # FOR TWO VERIFICATION
+            data = {'_csrftoken': self.LastResponse.cookies['csrftoken'],
+                   'username': self.username,
+                   'guid': self.uuid,
+                   'device_id': self.device_id,
+                   'verification_method': '1',
+                   'verification_code': verification_code,
+                   'two_factor_identifier': two_factor_identifier}
+            if (self.SendRequest('accounts/two_factor_login/', self.generateSignature(json.dumps(data)), True)):
+               self.isLoggedIn = True
+               self.username_id = self.LastJson["logged_in_user"]["pk"]
+               self.rank_token = "%s_%s" % (self.username_id, self.uuid)
+               self.token = self.LastResponse.cookies["csrftoken"]
+               self.syncFeatures()
+               self.autoCompleteUserList()
+               self.timelineFeed()
+               self.getv2Inbox()
+               self.getRecentActivity()
+               print("Login success with two factor authentication!\n")
+               return True
 
     def getTotalFollowers(self, usernameId):
         followers = []
